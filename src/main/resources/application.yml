@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: spring-ai-agent-tutorial
+  main:
+    web-application-type: none
+  shell:
+    interactive:
+      enabled: true
+
+  ai:
+    openai:
+      # DeepSeek использует OpenAI-совместимый API
+      api-key: ${DEEPSEEK_API_KEY}
+      base-url: https://api.deepseek.com
+      chat:
+        options:
+          model: deepseek-chat
+          temperature: 0.7
+          max-tokens: 2000
+
+spring-ai-agent-sandbox:
+  integration:
+    tg-chats-collector:
+      host: http://localhost:8083
+
+logging:
+  level:
+    root: INFO
+    ru.panyukovnn: DEBUG
