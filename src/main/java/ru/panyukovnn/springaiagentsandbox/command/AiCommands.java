@@ -3,12 +3,15 @@ package ru.panyukovnn.springaiagentsandbox.command;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import ru.panyukovnn.springaiagentsandbox.tools.DateTimeTool;
 import ru.panyukovnn.springaiagentsandbox.tools.TgChatsCollectorTool;
 import ru.panyukovnn.springaiagentsandbox.tools.YtSubtitlesTool;
 
@@ -21,6 +24,8 @@ import ru.panyukovnn.springaiagentsandbox.tools.YtSubtitlesTool;
 public class AiCommands {
 
     private final ChatModel chatModel;
+    private final ChatMemory chatMemory;
+    private final DateTimeTool dateTimeTool;
     private final YtSubtitlesTool ytSubtitlesTool;
     private final TgChatsCollectorTool tgChatsCollectorTool;
 
@@ -54,6 +59,7 @@ public class AiCommands {
         String response = ChatClient.create(chatModel)
             .prompt(message)
             .tools(ytSubtitlesTool)
+            .advisors(MessageChatMemoryAdvisor.builder(chatMemory).build())
             .call()
             .content();
 
@@ -74,7 +80,8 @@ public class AiCommands {
 
         String response = ChatClient.create(chatModel)
             .prompt(message)
-            .tools(tgChatsCollectorTool)
+            .advisors(MessageChatMemoryAdvisor.builder(chatMemory).build())
+            .tools(tgChatsCollectorTool, dateTimeTool)
             .call()
             .content();
 

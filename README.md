@@ -2,10 +2,33 @@
 
 Проект для демонстрации работы Spring AI с использованием LLM и вызовом через Spring Shell.
 
+## Пререквизиты для запуска
+
+- прописать DEEPSEEK_API_KEY
+- поднять локальную embedding модель для RAG:
+```yaml
+services:
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    ports:
+      - "11432:11434"
+    volumes:
+      - ./ollama:/root/.ollama
+    entrypoint: >
+      /bin/sh -c "
+        ollama serve &
+        sleep 2 &&
+        ollama pull nomic-embed-text &&
+        wait
+      "
+    restart: unless-stopped
+```
+
 ## Настройка
 
 ```bash
-export DEEPSEEK_API_KEY=your-api-key-here
+export =your-api-key-here
 ```
 
 ### 2. Сборка проекта

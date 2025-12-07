@@ -6,8 +6,19 @@ spring:
   shell:
     interactive:
       enabled: true
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connect-timeout: 300000
+            read-timeout: 300000
 
   ai:
+    model:
+      chat: openai
+      embedding: ollama
+
     openai:
       # DeepSeek использует OpenAI-совместимый API
       api-key: ${DEEPSEEK_API_KEY}
@@ -16,7 +27,18 @@ spring:
         options:
           model: deepseek-chat
           temperature: 0.7
-          max-tokens: 2000
+          max-tokens: 3000
+
+    ollama:
+      base-url: http://localhost:11432
+      embedding:
+        model: mxbai-embed-large
+        options:
+          temperature: 0.7
+
+    vectorstore:
+      simple:
+        enabled: true
 
 spring-ai-agent-sandbox:
   integration:
@@ -27,3 +49,4 @@ logging:
   level:
     root: INFO
     ru.panyukovnn: DEBUG
+    org.springframework.ai: DEBUG

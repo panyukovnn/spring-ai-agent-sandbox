@@ -1,5 +1,6 @@
 package ru.panyukovnn.springaiagentsandbox.dto.searchchat;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SearchChatsResponse {
 
     private List<ChatInfo> chats;
@@ -19,6 +21,7 @@ public class SearchChatsResponse {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class ChatInfo {
 
         private Long id;
@@ -31,6 +34,7 @@ public class SearchChatsResponse {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class TopicInfo {
 
         private Long id;

@@ -1,6 +1,7 @@
 package ru.panyukovnn.springaiagentsandbox.dto.searchchat;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,11 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SearchChatRequest {
+public class SearchPrivateChatRequest {
 
-    @Schema(description = "Полное имя публичного чата/канала (начинается с знака @)")
-    private String publicChatName;
-
+    @NotEmpty(message = "Имя приватного чата для поиска не может быть пустым")
     @Schema(description = "Часть имени приватного чата")
     private String privateChatNamePart;
 
