@@ -48,5 +48,3 @@ spring-ai-agent-sandbox:
 logging:
   level:
     root: INFO
-    ru.panyukovnn: DEBUG
-    org.springframework.ai: DEBUG
