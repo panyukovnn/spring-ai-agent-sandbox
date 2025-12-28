@@ -10,6 +10,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.panyukovnn.springaiagentsandbox.tools.DateTimeTool;
+import ru.panyukovnn.springaiagentsandbox.tools.TavilyWebSearchTool;
 import ru.panyukovnn.springaiagentsandbox.tools.TgChatsCollectorTool;
 import ru.panyukovnn.springaiagentsandbox.tools.YtSubtitlesTool;
 
@@ -26,6 +27,7 @@ public class AiCommands {
     private final DateTimeTool dateTimeTool;
     private final YtSubtitlesTool ytSubtitlesTool;
     private final TgChatsCollectorTool tgChatsCollectorTool;
+    private final TavilyWebSearchTool tavilyWebSearchTool;
 
     /**
      * Отправить простой запрос к AI модели
@@ -83,6 +85,22 @@ public class AiCommands {
             .prompt(message)
             .advisors(MessageChatMemoryAdvisor.builder(chatMemory).build())
             .tools(tgChatsCollectorTool, dateTimeTool)
+            .call()
+            .chatResponse();
+
+        log.info("Получен ответ от AI. Токены: {}", chatResponse.getMetadata().getUsage().getTotalTokens());
+
+        return chatResponse.getResult().getOutput().getText();
+    }
+
+    @ShellMethod(key = "searchWeb", value = "Спросить с поиском в интернете")
+    public String searchWeb(@ShellOption(value = {"-m", "--message"}, help = "Промт") String message) {
+        log.info("Отправка запроса к AI: {}", message);
+
+        ChatResponse chatResponse = chatClient
+            .prompt(message)
+            .advisors(MessageChatMemoryAdvisor.builder(chatMemory).build())
+            .tools(tavilyWebSearchTool)
             .call()
             .chatResponse();
 

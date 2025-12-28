@@ -41,6 +41,8 @@ spring:
         enabled: true
 
 spring-ai-agent-sandbox:
+  api-keys:
+    tavily: ${TAVILY_API_KEY}
   integration:
     tg-chats-collector:
       host: http://localhost:8083
